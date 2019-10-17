@@ -11,7 +11,7 @@
 
     </head>
     <body>
-        <div id='example'></div>
+        <div id='root'></div>
         <script src="/js/app.js"></script>
     </body>
 </html>
