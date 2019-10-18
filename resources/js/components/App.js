@@ -24,10 +24,10 @@ const App = () => {
         </nav>
         <Switch>
           <Route path="/login">
-            <PhotoList />
+            <Login />
           </Route>
           <Route path="/">
-            <Login />
+            <PhotoList />
           </Route>
         </Switch>
       </div>

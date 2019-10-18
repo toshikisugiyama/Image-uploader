@@ -19,11 +19,11 @@ grant all on データベース名.* to 'ユーザー名'@'localhost' identified
 #### 2. .env の編集
 ```
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=データベース名
-DB_USERNAME=ユーザー名
-DB_PASSWORD=パスワード
+DB_HOST=localhost
+DB_PORT=8889
+DB_DATABASE=image_uploader
+DB_USERNAME=image_uploader_user
+DB_PASSWORD=password
 ```
 #### 3. app.php の編集
 `'timezone'` と `'locale'` をそれぞれ `'Asia/Tokyo'` と `'ja'` に変更する。
@@ -198,4 +198,46 @@ protected function mapApiRoutes()
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+```
+### テストコード
+新しいテストケースを作成する
+```
+php artisan make:test RegisterApiTest
+```
+`RegisterApiTest.php` を編集する。
+```php:RegisterApiTest.php
+<?php
+
+namespace Tests\Feature;
+
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class RegisterApiTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    public function should_create_a_new_user_and_return()
+    {
+        $data = [
+            'name' => 'user',
+            'email' => 'dummy@emali.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ];
+        $response = $this->json('POST', route('register'), $data);
+        $user = User::first();
+        $this->assertSame($data['name'], $user->name);
+        $response
+            ->assertStatus(200)
+            ->assertJson(['name' => $user->name]);
+    }
+}
 ```
