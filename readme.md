@@ -177,3 +177,25 @@ const App = () => {
 }
 export default App
 ```
+
+## API 用のルート
+`RouteServiceProvider.php` の編集
+```php:RouteServiceProvider.php
+protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
+    }
+```
+この部分を以下のように変更
+```php:RouteServiceProvider.php
+protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
+    }
+```
